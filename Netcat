@@ -1,0 +1,29 @@
+# Netcat is a command-line networking tool which is able to read and write data
+across Transmission Control Protocol TCP and User Datagram Protocol.
+
+Steps:
+1. Install Netcat
+$ sudo apt-get install Netcat
+
+2. To obtain help
+$ nc -h
+
+# Depending on the situation you are you can use netcat for a lot of things like
+file transferring, port scanning, port redirection, hard drive cloning, http
+headers spoofing, chatting with your friend in the computer lab and more. The
+sky is the limit! You don’t need many command options of this tool to use netcat
+in different ways and for different purposes. Netcat operates in two modes, as
+client or as a  server so you can use netcat to connect to somewhere or listen
+for an inbound connection.
+
+3. Setup the servers
+$ nc -l -p 12345
+
+4. Client mode
+$ nc localhost 12345
+
+5. Port scanning
+$ nc -V www.google.com 80        #'V' is verbose
+
+6. Banner grabbing
+GET /HTTP/1.1
