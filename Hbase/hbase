@@ -1,0 +1,32 @@
+# HBase Commands
+
+create 'Departments', 'DepInfo
+
+create 'Engineers', 'personal_info','job_info' 
+
+create'Managers','personal_info','job_info' 
+
+create 'Employee', 'present address', 'permanent address'
+
+# Load data into the table
+put 'Employee' ,'row1','present address:province','Nova Scotia';
+put 'Employee' ,'row1','present address:city','Halifax';
+put 'Employee' ,'row1','present address:street','Hamilton Lane';
+
+# To view the table
+scan 'Employee'
+
+# To drop the table, first, disable the table
+disable  'Employee'
+
+# Drop the table
+drop 'Employee'
+
+# Upload a CSV file from Hadoop to Hbase (Department Table)
+hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator=',' -Dimporttsv.columns="HBASE_ROW_KEY,DepInfo:id, DepInfo:name" departments /tmp/departments.csv
+
+# Upload a CSV file from Hadoop to Hbase (engineers Table)
+hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator=',' -Dimporttsv.columns="HBASE_ROW_KEY,personal_info:id, personal_info:first_name,personal_info:last_name,personal_info:city,personal_info:country,job_info:department,job_info:join_date,job_info:review_date,job_info:manager_id,job_info:manager_name" engineers /tmp/engineers.csv
+
+# Upload a CSV file from Hadoop to Hbase (manager Table)
+hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator=',' -Dimporttsv.columns="HBASE_ROW_KEY,personal_info:id, personal_info:first_name,personal_info:last_name,personal_info:city,personal_info:country,job_info:department" managers /tmp/managers.csvlist

@@ -1,0 +1,4 @@
+# Apache Flume Agent
+
+$ flume-ng agent --name a1 --conf-file flume_hadoop.conf -Dflume.root.logger=INFO,console
+

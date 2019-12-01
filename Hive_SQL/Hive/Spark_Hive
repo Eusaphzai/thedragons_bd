@@ -1,0 +1,73 @@
+SPARK-SHELL
+SPARK -> HIVE
+
+** IMPORT PACKAGE **
+import org.apache.spark.sql.types._
+
+** CREATE SCHEMA **
+## Engineers
+val engineers_schema = StructType(
+Array(
+StructField("id", IntegerType, true),
+StructField("first_name", StringType, true),
+StructField("last_name", StringType, true),
+StructField("age", IntegerType, true),
+StructField("city", StringType, true),
+StructField("country", StringType, true),
+StructField("salary", FloatType, true),
+StructField("department_id", IntegerType, true),
+StructField("hire_date", StringType, true),
+StructField("renewal_date", StringType, true),
+StructField("manager_id", IntegerType, true)
+))
+
+
+## Manager
+val manager_schema = StructType(
+Array(
+StructField("id", IntegerType, true),
+StructField("first_name", StringType, true),
+StructField("last_name", StringType, true),
+StructField("age", IntegerType, true),
+StructField("city", StringType, true),
+StructField("country", StringType, true),
+StructField("salary", FloatType, true),
+StructField("department_id", IntegerType, true)
+))
+
+
+## Departments
+val manager_schema = StructType(
+Array(
+StructField("id", IntegerType, true),
+StructField("name", StringType, true)
+))
+
+
+** CREATE NEW DF W EXISTING SCHEMA **
+## Engineers
+val new_engineers_df = spark.read.format("csv").schema(engineers_schema).option("header","false").load("/tmp/engineers.csv")
+
+## Managers
+val new_managers_df = spark.read.format("csv").schema(manager_schema).option("header","false").load("/tmp/managers.csv")
+
+## Departments
+val new_departments_df = spark.read.format("csv").schema(departments_schema).option("header","false").load("/tmp/departments.csv")
+
+
+** SAVE DF TO HIVE **
+## Engineers
+new_engineers_df.write.mode("overwrite").saveAsTable("enhanceit.engineers")
+
+## Managers
+new_managers_df.write.mode("overwrite").saveAsTable("enhanceit.managers")
+
+## Departments
+new_departments_df.write.mode("overwrite").saveAsTable("enhanceit.departments")
+
+** HIVE COMMANDS **
+spark.sql(“<HIVE_QUERY>”).showType a message
+
+
+scala> spark.sql("use enhanceit").show
+scala> spark.sql("select * from engineers").show

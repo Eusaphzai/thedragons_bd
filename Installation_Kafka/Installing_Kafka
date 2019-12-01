@@ -1,0 +1,38 @@
+# Install Apache Kafka 2.3.1 on Ubuntu 18.04
+(for other version, find version at https://kafka.apache.org/downloads)
+
+# Steps:
+1. Download and install kafka
+$ cd ~
+$ wget https://www-eu.apache.org/dist/kafka/2.3.1/kafka_2.11-2.3.1.tgz
+$ tar -xzvf kafka_2.11-2.3.1.tgz
+$ ln -s kafka_2.11-2.3.1 kafka
+
+# Add Kafka to bash_profile
+$ sudo gedit ~/.bash_profile
+
+# Setup the Environment variables and PATH
+export KAFKA_HOME=~/kafka
+export PATH=$PATH:$KAFKA_HOME/bin
+
+# Start Zookeeper
+$ cd
+$ bin/zookeeper-server-start.sh config/zookeeper.properties
+
+# Start Kafka (On a new terminal tab)
+$ kafka-server-start.sh kafka/config/server.properties
+
+# Create a new topic (On New Terminal)
+$ kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic thedragons
+
+# List topics in zookeeper (On New Terminal)
+$ kafka-topics.sh --list --zookeeper localhost:2181
+$ kafka-topics.sh --describe --zookeeper localhost:2181 --topic thedragons
+
+# Create producer (On New Terminal)
+$ kafka-console-producer.sh --broker-list localhost:9092 --topic thedragons
+
+# Create consumer (On New Terminal)
+$ kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic thedragons
+
+# Finally, send a message from Kafka Producer to be received in the Kafka Consumer.
